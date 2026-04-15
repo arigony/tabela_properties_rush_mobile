@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Periodic Properties Rush Mobile</title>
+  <style>
+    :root {
+      --bg1: #07111f;
+      --bg2: #0f172a;
+      --panel: rgba(15, 23, 42, 0.9);
+      --panel2: rgba(30, 41, 59, 0.9);
+      --line: rgba(255,255,255,0.1);
+      --text: #eef4ff;
+      --muted: #9fb1cc;
+      --accent: #22c55e;
+      --accent2: #60a5fa;
+      --warn: #f59e0b;
+      --bad: #fb7185;
+      --good: #4ade80;
+      --shadow: 0 18px 40px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(96,165,250,0.18), transparent 26%),
+        radial-gradient(circle at top right, rgba(34,197,94,0.12), transparent 18%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 12px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(96,165,250,0.16);
+      border: 1px solid rgba(96,165,250,0.25);
+      color: #bfdbfe;
+      font-size: 0.8rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
+      line-height: 1.1;
+    }
+
+    .sub {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.96rem;
+      margin-bottom: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      min-height: 74px;
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-bottom: 6px;
+    }
+
+    .stat .value {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .controls, .mode-grid, .choice-grid, .sequence-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .controls {
+      grid-template-columns: 1fr 1fr;
+      margin-top: 14px;
+    }
+
+    button {
+      font: inherit;
+      border: 0;
+      border-radius: 16px;
+      cursor: pointer;
+      min-height: 48px;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+
+    .primary {
+      background: linear-gradient(135deg, var(--accent), #16a34a);
+      color: white;
+      font-weight: 800;
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .panel {
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .mode-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .mode-chip {
+      padding: 11px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .mode-chip.active {
+      background: rgba(34,197,94,0.15);
+      color: #dcfce7;
+      border-color: rgba(34,197,94,0.35);
+    }
+
+    .mission {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+
+    .mode-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      background: rgba(96,165,250,0.14);
+      border: 1px solid rgba(96,165,250,0.28);
+      color: #bfdbfe;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .mission h2 {
+      margin: 0 0 8px;
+      font-size: 1.18rem;
+      line-height: 1.25;
+    }
+
+    .mission p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .feedback {
+      min-height: 70px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      margin-bottom: 12px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .feedback.good { border-color: rgba(74,222,128,0.4); color: #dcfce7; }
+    .feedback.bad { border-color: rgba(251,113,133,0.4); color: #ffe4e6; }
+
+    .trend-map {
+      min-height: 104px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+
+    .trend-map h3 {
+      margin: 0 0 10px;
+      font-size: 0.98rem;
+    }
+
+    .trend-visual {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .trend-box {
+      height: 78px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trend-arrow {
+      position: absolute;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #bfdbfe;
+      opacity: 0.95;
+      animation: trendPulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes trendPulse {
+      0%, 100% { opacity: 0.55; transform-origin: center; }
+      50% { opacity: 1; }
+    }
+
+    .trend-box.good {
+      border-color: rgba(74,222,128,0.45);
+      box-shadow: 0 0 0 4px rgba(74,222,128,0.08);
+    }
+
+    .trend-box.bad {
+      border-color: rgba(251,113,133,0.45);
+      box-shadow: 0 0 0 4px rgba(251,113,133,0.08);
+    }
+
+    .trend-box.good .trend-arrow {
+      color: #86efac;
+      animation-duration: 0.7s;
+    }
+
+    .trend-box.bad .trend-arrow {
+      color: #fda4af;
+      animation-name: trendShakePulse;
+      animation-duration: 0.45s;
+      animation-iteration-count: 3;
+    }
+
+    @keyframes trendShakePulse {
+      0% { opacity: 0.65; transform: translate(0,0); }
+      25% { opacity: 1; transform: translate(1px,-1px); }
+      50% { opacity: 1; transform: translate(-1px,1px); }
+      75% { opacity: 0.9; transform: translate(1px,1px); }
+      100% { opacity: 0.7; transform: translate(0,0); }
+    }
+
+    .trend-arrow.right { right: 12px; top: 50%; transform: translateY(-50%); }
+    .trend-arrow.left { left: 12px; top: 50%; transform: translateY(-50%); }
+    .trend-arrow.up { top: 8px; left: 50%; transform: translateX(-50%); }
+    .trend-arrow.down { bottom: 8px; left: 50%; transform: translateX(-50%); }
+    .trend-arrow.center { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
+    .trend-grid-mark {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.5;
+    }
+
+    .trend-text {
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.9rem;
+    }
+
+    .choice-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .choice {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 14px;
+      text-align: left;
+    }
+
+    .choice strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .choice span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .sequence-grid {
+      grid-template-columns: 1fr;
+      margin-top: 4px;
+    }
+
+    .small-note {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      margin-top: 10px;
+    }
+
+    .progress-wrap {
+      margin-bottom: 12px;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.86rem;
+    }
+
+    .progress {
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+    }
+
+    .progress > div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width 0.2s ease;
+    }
+
+    .teacher-box {
+      padding: 14px;
+      margin-top: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .teacher-box h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .teacher-box ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .end-screen {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 20;
+    }
+
+    .end-card {
+      width: 100%;
+      max-width: 520px;
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(15,23,42,0.96);
+      border: 1px solid var(--line);
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .end-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.6rem;
+    }
+
+    .end-card p {
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0 0 14px;
+    }
+
+    .end-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .end-box {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .end-box .small {
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .end-box .big {
+      font-size: 1.18rem;
+      font-weight: 800;
+    }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 10px; }
+      h1 { font-size: 1.5rem; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .controls, .mode-grid { grid-template-columns: 1fr; }
+      .hero, .panel { padding: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card hero">
+      <div class="kicker">⚛️ Properties Rush Mobile · foco em propriedades periódicas</div>
+      <h1>Jogo das propriedades da Tabela Periódica</h1>
+      <div class="sub">
+        Versão do jogo focada em <strong>raio atômico e raio iônico</strong>, <strong>energia de ionização</strong>, <strong>afinidade eletrônica</strong>, <strong>eletronegatividade</strong> e <strong>eletropositividade</strong>. Feita para uso em <strong>celular</strong> na aula.
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="label">Pontuação</div><div class="value" id="score">0</div></div>
+        <div class="stat"><div class="label">Combo</div><div class="value" id="streak">0</div></div>
+        <div class="stat"><div class="label">Tempo</div><div class="value" id="time">70s</div></div>
+        <div class="stat"><div class="label">Acertos</div><div class="value" id="correct">0</div></div>
+      </div>
+      <div class="controls">
+        <button class="primary" id="startBtn">Começar</button>
+        <button class="secondary" id="resetBtn">Reiniciar</button>
+      </div>
+    </section>
+
+    <section class="card panel">
+      <div class="mode-grid" id="modeGrid">
+        <div class="mode-chip" data-mode="raio">Raio atômico / iônico</div>
+        <div class="mode-chip" data-mode="ionizacao">Energia de ionização</div>
+        <div class="mode-chip" data-mode="afinidade">Afinidade eletrônica</div>
+        <div class="mode-chip" data-mode="eletronegatividade">Eletronegatividade</div>
+        <div class="mode-chip" data-mode="eletropositividade">Eletropositividade</div>
+        <div class="mode-chip" data-mode="misto">Modo misto</div>
+      </div>
+    </section>
+
+    <section class="card panel">
+      <div class="mission">
+        <div class="mode-pill" id="modePill">Aguardando partida</div>
+        <h2 id="missionTitle">Toque em “Começar”.</h2>
+        <p id="missionText">Os desafios aparecem em formato rápido, ideal para smartphone e discussão em sala.</p>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-top">
+          <strong>Progresso</strong>
+          <span id="progressLabel">0%</span>
+        </div>
+        <div class="progress"><div id="progressBar"></div></div>
+      </div>
+
+      <div class="feedback" id="feedbackBox">Feedback da rodada aparece aqui.</div>
+      <div class="trend-map" id="trendMapBox">
+        <h3>Mini mapa da tendência</h3>
+        <div class="trend-visual">
+          <div class="trend-box" id="trendVisualBox">
+            <div class="trend-grid-mark"></div>
+            <div class="trend-arrow center">↔</div>
+          </div>
+          <div class="trend-text" id="trendText">Ao iniciar a rodada, este painel mostra a direção visual da propriedade e uma leitura curta para ajudar o aluno.</div>
+        </div>
+      </div>
+      <div class="choice-grid" id="choicesBox"></div>
+      <div class="sequence-grid" id="sequenceBox"></div>
+
+      <div class="teacher-box">
+        <h3>Como explorar didaticamente</h3>
+        <ul>
+          <li>Peça que o aluno explique a tendência antes de tocar na resposta.</li>
+          <li>Use o erro para discutir número de camadas, atração núcleo-elétron e estabilidade.</li>
+          <li>No caso de raio iônico, destaque a diferença entre cátion, ânion e átomo neutro.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <div class="end-screen" id="endScreen">
+    <div class="end-card">
+      <h3>Fim da rodada</h3>
+      <p id="endText">Boa revisão.</p>
+      <div class="end-grid">
+        <div class="end-box"><div class="small">Pontuação</div><div class="big" id="endScore">0</div></div>
+        <div class="end-box"><div class="small">Acertos</div><div class="big" id="endCorrect">0</div></div>
+        <div class="end-box"><div class="small">Maior combo</div><div class="big" id="endStreak">0</div></div>
+        <div class="end-box"><div class="small">Tema</div><div class="big" id="endTheme">Misto</div></div>
+      </div>
+      <div class="controls" style="margin-top:0;">
+        <button class="primary" id="playAgainBtn">Jogar de novo</button>
+        <button class="secondary" id="closeEndBtn">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const atomicData = [
+      { s:'Li', name:'Lítio', radius:167, ionization:520, affinity:-60, electronegativity:0.98, electropositivity:9.02 },
+      { s:'Na', name:'Sódio', radius:190, ionization:496, affinity:-53, electronegativity:0.93, electropositivity:9.07 },
+      { s:'K', name:'Potássio', radius:243, ionization:419, affinity:-48, electronegativity:0.82, electropositivity:9.18 },
+      { s:'Mg', name:'Magnésio', radius:145, ionization:738, affinity:0, electronegativity:1.31, electropositivity:8.69 },
+      { s:'Ca', name:'Cálcio', radius:194, ionization:590, affinity:-2, electronegativity:1.00, electropositivity:9.00 },
+      { s:'B', name:'Boro', radius:87, ionization:801, affinity:-27, electronegativity:2.04, electropositivity:7.96 },
+      { s:'C', name:'Carbono', radius:67, ionization:1087, affinity:-122, electronegativity:2.55, electropositivity:7.45 },
+      { s:'N', name:'Nitrogênio', radius:56, ionization:1402, affinity:7, electronegativity:3.04, electropositivity:6.96 },
+      { s:'O', name:'Oxigênio', radius:48, ionization:1314, affinity:-141, electronegativity:3.44, electropositivity:6.56 },
+      { s:'F', name:'Flúor', radius:42, ionization:1681, affinity:-328, electronegativity:3.98, electropositivity:6.02 },
+      { s:'Cl', name:'Cloro', radius:79, ionization:1251, affinity:-349, electronegativity:3.16, electropositivity:6.84 },
+      { s:'Br', name:'Bromo', radius:94, ionization:1140, affinity:-324, electronegativity:2.96, electropositivity:7.04 },
+      { s:'I', name:'Iodo', radius:115, ionization:1008, affinity:-295, electronegativity:2.66, electropositivity:7.34 },
+      { s:'Si', name:'Silício', radius:111, ionization:787, affinity:-134, electronegativity:1.90, electropositivity:8.10 },
+      { s:'P', name:'Fósforo', radius:98, ionization:1012, affinity:-72, electronegativity:2.19, electropositivity:7.81 },
+      { s:'S', name:'Enxofre', radius:88, ionization:1000, affinity:-200, electronegativity:2.58, electropositivity:7.42 }
+    ];
+
+    const ionicCases = [
+      { left:'Na', right:'Na⁺', answer:'Na', text:'Quem tem maior raio?', explain:'O átomo neutro de Na é maior que o cátion Na⁺, pois ao perder elétron o íon fica menor.' },
+      { left:'F', right:'F⁻', answer:'F⁻', text:'Quem tem maior raio?', explain:'O ânion F⁻ é maior que o átomo neutro de F, pois o ganho de elétron aumenta a repulsão eletrônica.' },
+      { left:'Cl', right:'Cl⁻', answer:'Cl⁻', text:'Quem tem maior raio?', explain:'O ânion Cl⁻ é maior que o átomo neutro de Cl.' },
+      { left:'Mg', right:'Mg²⁺', answer:'Mg', text:'Quem tem maior raio?', explain:'O átomo neutro de Mg é maior que o cátion Mg²⁺.' },
+      { left:'Ca', right:'Ca²⁺', answer:'Ca', text:'Quem tem maior raio?', explain:'Ao formar cátion, o raio diminui.' },
+      { left:'O', right:'O²⁻', answer:'O²⁻', text:'Quem tem maior raio?', explain:'Ânions são maiores que os átomos neutros correspondentes.' }
+    ];
+
+    const state = {
+      running: false,
+      mode: 'misto',
+      score: 0,
+      streak: 0,
+      bestStreak: 0,
+      correct: 0,
+      answered: 0,
+      timeLeft: 70,
+      timer: null,
+      challenge: null,
+      locked: false
+    };
+
+    const scoreEl = document.getElementById('score');
+    const streakEl = document.getElementById('streak');
+    const timeEl = document.getElementById('time');
+    const correctEl = document.getElementById('correct');
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    const closeEndBtn = document.getElementById('closeEndBtn');
+    const missionTitle = document.getElementById('missionTitle');
+    const missionText = document.getElementById('missionText');
+    const modePill = document.getElementById('modePill');
+    const feedbackBox = document.getElementById('feedbackBox');
+    const trendVisualBox = document.getElementById('trendVisualBox');
+    const trendText = document.getElementById('trendText');
+    const choicesBox = document.getElementById('choicesBox');
+    const sequenceBox = document.getElementById('sequenceBox');
+    const progressBar = document.getElementById('progressBar');
+    const progressLabel = document.getElementById('progressLabel');
+    const endScreen = document.getElementById('endScreen');
+    const endScore = document.getElementById('endScore');
+    const endCorrect = document.getElementById('endCorrect');
+    const endStreak = document.getElementById('endStreak');
+    const endTheme = document.getElementById('endTheme');
+    const endText = document.getElementById('endText');
+    const modeGrid = document.getElementById('modeGrid');
+
+    const modeLabels = {
+      raio: 'Raio atômico e iônico',
+      ionizacao: 'Energia de ionização',
+      afinidade: 'Afinidade eletrônica',
+      eletronegatividade: 'Eletronegatividade',
+      eletropositividade: 'Eletropositividade',
+      misto: 'Modo misto'
+    };
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function sample(arr, n) {
+      return shuffle(arr).slice(0, n);
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      [...modeGrid.querySelectorAll('.mode-chip')].forEach(chip => {
+        chip.classList.toggle('active', chip.dataset.mode === mode);
+      });
+    }
+
+    [...modeGrid.querySelectorAll('.mode-chip')].forEach(chip => {
+      chip.addEventListener('click', () => setMode(chip.dataset.mode));
+    });
+
+    function updateHud() {
+      scoreEl.textContent = state.score;
+      streakEl.textContent = state.streak;
+      timeEl.textContent = `${state.timeLeft}s`;
+      correctEl.textContent = state.correct;
+      const pct = Math.min(100, Math.round((state.correct / 12) * 100));
+      progressBar.style.width = `${pct}%`;
+      progressLabel.textContent = `${pct}%`;
+    }
+
+    function feedback(msg, type='') {
+      feedbackBox.textContent = msg;
+      feedbackBox.className = `feedback ${type}`.trim();
+    }
+
+    function setTrendMap(kind, stateType = '') {
+      const maps = {
+        raioAtomico: {
+          arrows: ['left', 'down'],
+          text: 'Raio atômico: em geral aumenta para a esquerda e para baixo.'
+        },
+        raioIonico: {
+          arrows: ['center'],
+          text: 'Raio iônico: cátions ficam menores que o átomo neutro; ânions ficam maiores.'
+        },
+        ionizacao: {
+          arrows: ['right', 'up'],
+          text: 'Energia de ionização: em geral aumenta para a direita e para cima.'
+        },
+        afinidade: {
+          arrows: ['right', 'up'],
+          text: 'Afinidade eletrônica: tende a aumentar em direção à direita e para cima, com destaque para halogênios.'
+        },
+        eletronegatividade: {
+          arrows: ['right', 'up'],
+          text: 'Eletronegatividade: em geral aumenta para a direita e para cima.'
+        },
+        eletropositividade: {
+          arrows: ['left', 'down'],
+          text: 'Eletropositividade: em geral aumenta para a esquerda e para baixo.'
+        },
+        neutro: {
+          arrows: ['center'],
+          text: 'Este painel mostra a direção visual da propriedade ativa para ajudar na interpretação da resposta.'
+        }
+      };
+      const cfg = maps[kind] || maps.neutro;
+      trendVisualBox.className = `trend-box ${stateType}`.trim();
+      trendVisualBox.innerHTML = '<div class="trend-grid-mark"></div>' + cfg.arrows.map(a => `<div class="trend-arrow ${a}">${a === 'up' ? '↑' : a === 'down' ? '↓' : a === 'left' ? '←' : a === 'right' ? '→' : '⊙'}</div>`).join('');
+      trendText.textContent = cfg.text;
+    }
+
+    function resetGame() {
+      clearInterval(state.timer);
+      state.running = false;
+      state.score = 0;
+      state.streak = 0;
+      state.bestStreak = 0;
+      state.correct = 0;
+      state.answered = 0;
+      state.timeLeft = 70;
+      state.challenge = null;
+      state.locked = false;
+      missionTitle.textContent = 'Toque em “Começar”.';
+      missionText.textContent = 'Os desafios aparecem em formato rápido, ideal para smartphone e discussão em sala.';
+      modePill.textContent = 'Aguardando partida';
+      choicesBox.innerHTML = '';
+      sequenceBox.innerHTML = '';
+      feedback('Feedback da rodada aparece aqui.', '');
+      setTrendMap('neutro');
+      updateHud();
+      endScreen.style.display = 'none';
+    }
+
+    function startGame() {
+      resetGame();
+      state.running = true;
+      state.timer = setInterval(() => {
+        state.timeLeft--;
+        updateHud();
+        if (state.timeLeft <= 0) endGame();
+      }, 1000);
+      nextChallenge();
+    }
+
+    function endGame() {
+      clearInterval(state.timer);
+      state.running = false;
+      state.locked = true;
+      endScore.textContent = state.score;
+      endCorrect.textContent = state.correct;
+      endStreak.textContent = state.bestStreak;
+      endTheme.textContent = modeLabels[state.mode];
+      endText.textContent = state.score >= 1400
+        ? 'Ótima rodada. Você dominou bem as tendências periódicas.'
+        : 'Boa revisão. Tente explicar verbalmente cada resposta na próxima rodada.';
+      endScreen.style.display = 'flex';
+    }
+
+    function scorePoints(base=100) {
+      state.score += base + state.streak * 10;
+      state.streak += 1;
+      state.bestStreak = Math.max(state.bestStreak, state.streak);
+      state.correct += 1;
+      state.answered += 1;
+      if (state.correct % 4 === 0) state.timeLeft += 4;
+      updateHud();
+    }
+
+    function punish(seconds=4) {
+      state.streak = 0;
+      state.timeLeft = Math.max(0, state.timeLeft - seconds);
+      state.answered += 1;
+      updateHud();
+    }
+
+    function complete(msg) {
+      state.locked = true;
+      feedback(msg, 'good');
+      pulseTrendState('good');
+      setTimeout(nextChallenge, 900);
+    }
+
+    function pulseTrendState(type) {
+      const current = detectTrendKind();
+      setTrendMap(current, type);
+      setTimeout(() => {
+        if (!state.running) return;
+        setTrendMap(current, '');
+      }, 650);
+    }
+
+    function detectTrendKind() {
+      if (!state.challenge) return 'neutro';
+      if (state.challenge.type === 'ionic') return 'raioIonico';
+      if (state.challenge.type === 'affinity' || state.challenge.type === 'sequenceAbs') return 'afinidade';
+      if (state.challenge.key === 'radius') return 'raioAtomico';
+      if (state.challenge.key === 'ionization') return 'ionizacao';
+      if (state.challenge.key === 'electronegativity') return 'eletronegatividade';
+      if (state.challenge.key === 'electropositivity') return 'eletropositividade';
+      return 'neutro';
+    }
+
+    function fail(msg) {
+      state.locked = true;
+      feedback(msg, 'bad');
+      pulseTrendState('bad');
+      setTimeout(nextChallenge, 1100);
+    }
+
+    function currentPool() {
+      if (state.mode === 'misto') return ['raio','ionizacao','afinidade','eletronegatividade','eletropositividade'];
+      return [state.mode];
+    }
+
+    function nextChallenge() {
+      if (!state.running) return;
+      state.locked = false;
+      choicesBox.innerHTML = '';
+      sequenceBox.innerHTML = '';
+      const pool = currentPool();
+      const kind = pool[Math.floor(Math.random() * pool.length)];
+
+      if (kind === 'raio') {
+        const subtypes = ['atomic-compare','ionic-compare','sequence'];
+        const chosen = subtypes[Math.floor(Math.random() * subtypes.length)];
+        if (chosen === 'atomic-compare') setupAtomicCompare();
+        if (chosen === 'ionic-compare') setupIonicCompare();
+        if (chosen === 'sequence') setupSequence('radius', 'raio atômico', 'Maior para menor.');
+      }
+      if (kind === 'ionizacao') {
+        const chosen = Math.random() < 0.6 ? 'compare' : 'sequence';
+        if (chosen === 'compare') setupCompare('ionization', 'energia de ionização', 'Quem apresenta maior energia de ionização?');
+        else setupSequence('ionization', 'energia de ionização', 'Maior para menor.');
+      }
+      if (kind === 'afinidade') {
+        const chosen = Math.random() < 0.6 ? 'compare' : 'sequence';
+        if (chosen === 'compare') setupAffinityCompare();
+        else setupSequenceAbs('affinity', 'afinidade eletrônica', 'Maior tendência de ganhar elétron.');
+      }
+      if (kind === 'eletronegatividade') {
+        const chosen = Math.random() < 0.6 ? 'compare' : 'sequence';
+        if (chosen === 'compare') setupCompare('electronegativity', 'eletronegatividade', 'Quem é mais eletronegativo?');
+        else setupSequence('electronegativity', 'eletronegatividade', 'Maior para menor.');
+      }
+      if (kind === 'eletropositividade') {
+        const chosen = Math.random() < 0.6 ? 'compare' : 'sequence';
+        if (chosen === 'compare') setupCompare('electropositivity', 'eletropositividade', 'Quem é mais eletropositivo?');
+        else setupSequence('electropositivity', 'eletropositividade', 'Maior para menor.');
+      }
+    }
+
+    function setupCompare(key, label, title) {
+      let pair = [];
+      while (pair.length < 2 || pair[0][key] === pair[1][key]) pair = sample(atomicData, 2);
+      const winner = pair[0][key] > pair[1][key] ? pair[0] : pair[1];
+      state.challenge = { type:'compare', key, label, winner, pair };
+      modePill.textContent = modeLabels[state.mode];
+      missionTitle.textContent = title;
+      missionText.textContent = `Compare dois elementos usando a tendência de ${label}.`;
+      choicesBox.innerHTML = pair.map(el => `
+        <button class="choice" data-choice="${el.s}">
+          <strong>${el.s} · ${el.name}</strong>
+          <span>Toque para responder</span>
+        </button>
+      `).join('');
+      [...choicesBox.querySelectorAll('.choice')].forEach(btn => btn.addEventListener('click', () => handleCompare(btn.dataset.choice)));
+      feedback('Leia a tendência e responda.', '');
+      if (key === 'ionization') setTrendMap('ionizacao');
+      if (key === 'electronegativity') setTrendMap('eletronegatividade');
+      if (key === 'electropositivity') setTrendMap('eletropositividade');
+    }
+
+    function setupAtomicCompare() {
+      let pair = [];
+      while (pair.length < 2 || pair[0].radius === pair[1].radius) pair = sample(atomicData, 2);
+      const winner = pair[0].radius > pair[1].radius ? pair[0] : pair[1];
+      state.challenge = { type:'compare', key:'radius', label:'raio atômico', winner, pair };
+      modePill.textContent = modeLabels[state.mode];
+      missionTitle.textContent = 'Quem tem maior raio atômico?';
+      missionText.textContent = 'Considere a tendência periódica e o número de camadas eletrônicas.';
+      choicesBox.innerHTML = pair.map(el => `
+        <button class="choice" data-choice="${el.s}">
+          <strong>${el.s} · ${el.name}</strong>
+          <span>Escolha o maior raio atômico</span>
+        </button>
+      `).join('');
+      [...choicesBox.querySelectorAll('.choice')].forEach(btn => btn.addEventListener('click', () => handleCompare(btn.dataset.choice)));
+      feedback('Lembre-se: em geral o raio aumenta para baixo e para a esquerda.', '');
+      setTrendMap('raioAtomico');
+    }
+
+    function setupIonicCompare() {
+      const chosen = sample(ionicCases, 1)[0];
+      state.challenge = { type:'ionic', chosen };
+      modePill.textContent = 'Raio iônico';
+      missionTitle.textContent = `${chosen.text} ${chosen.left} ou ${chosen.right}?`;
+      missionText.textContent = 'Compare átomo neutro e íon correspondente.';
+      choicesBox.innerHTML = [chosen.left, chosen.right].map(item => `
+        <button class="choice" data-choice="${item}">
+          <strong>${item}</strong>
+          <span>Toque para responder</span>
+        </button>
+      `).join('');
+      [...choicesBox.querySelectorAll('.choice')].forEach(btn => btn.addEventListener('click', () => handleIonic(btn.dataset.choice)));
+      feedback('Ânions tendem a ser maiores e cátions tendem a ser menores que o átomo neutro correspondente.', '');
+      setTrendMap('raioIonico');
+    }
+
+    function setupAffinityCompare() {
+      let pair = [];
+      while (pair.length < 2 || Math.abs(pair[0].affinity) === Math.abs(pair[1].affinity)) pair = sample(atomicData, 2);
+      const winner = Math.abs(pair[0].affinity) > Math.abs(pair[1].affinity) ? pair[0] : pair[1];
+      state.challenge = { type:'affinity', winner, pair };
+      modePill.textContent = modeLabels[state.mode];
+      missionTitle.textContent = 'Quem tem maior afinidade eletrônica?';
+      missionText.textContent = 'Considere maior tendência a ganhar elétron.';
+      choicesBox.innerHTML = pair.map(el => `
+        <button class="choice" data-choice="${el.s}">
+          <strong>${el.s} · ${el.name}</strong>
+          <span>Maior tendência de receber elétron</span>
+        </button>
+      `).join('');
+      [...choicesBox.querySelectorAll('.choice')].forEach(btn => btn.addEventListener('click', () => handleAffinity(btn.dataset.choice)));
+      feedback('Quanto mais favorável o ganho de elétron, maior a afinidade eletrônica.', '');
+      setTrendMap('afinidade');
+    }
+
+    function setupSequence(key, label, hint) {
+      let trio = [];
+      while (trio.length < 3) {
+        trio = sample(atomicData, 3);
+        if (new Set(trio.map(x => x[key])).size < 3) trio = [];
+      }
+      const sorted = trio.slice().sort((a,b) => b[key] - a[key]);
+      state.challenge = { type:'sequence', key, label, sorted, picks:[] };
+      modePill.textContent = modeLabels[state.mode];
+      missionTitle.textContent = `Ordem decrescente de ${label}`;
+      missionText.textContent = hint;
+      sequenceBox.innerHTML = trio.map(el => `
+        <button class="choice" data-choice="${el.s}">
+          <strong>${el.s} · ${el.name}</strong>
+          <span>Clique na ordem correta</span>
+        </button>
+      `).join('');
+      [...sequenceBox.querySelectorAll('.choice')].forEach(btn => btn.addEventListener('click', () => handleSequence(btn.dataset.choice, btn)));
+      feedback('Toque do maior para o menor.', '');
+      if (key === 'radius') setTrendMap('raioAtomico');
+      if (key === 'ionization') setTrendMap('ionizacao');
+      if (key === 'electronegativity') setTrendMap('eletronegatividade');
+      if (key === 'electropositivity') setTrendMap('eletropositividade');
+    }
+
+    function setupSequenceAbs(key, label, hint) {
+      let trio = [];
+      while (trio.length < 3) {
+        trio = sample(atomicData, 3);
+        if (new Set(trio.map(x => Math.abs(x[key]))).size < 3) trio = [];
+      }
+      const sorted = trio.slice().sort((a,b) => Math.abs(b[key]) - Math.abs(a[key]));
+      state.challenge = { type:'sequenceAbs', key, label, sorted, picks:[] };
+      modePill.textContent = modeLabels[state.mode];
+      missionTitle.textContent = `Ordem decrescente de ${label}`;
+      missionText.textContent = hint;
+      sequenceBox.innerHTML = trio.map(el => `
+        <button class="choice" data-choice="${el.s}">
+          <strong>${el.s} · ${el.name}</strong>
+          <span>Clique na ordem correta</span>
+        </button>
+      `).join('');
+      [...sequenceBox.querySelectorAll('.choice')].forEach(btn => btn.addEventListener('click', () => handleSequenceAbs(btn.dataset.choice, btn)));
+      feedback('Toque do maior para o menor.', '');
+      setTrendMap('afinidade');
+    }
+
+    function handleCompare(symbol) {
+      if (!state.running || state.locked || !state.challenge || state.challenge.type !== 'compare') return;
+      state.locked = true;
+      if (symbol === state.challenge.winner.s) {
+        scorePoints(120);
+        complete(`✅ Correto. ${state.challenge.winner.s} apresenta maior ${state.challenge.label}.`);
+      } else {
+        punish(4);
+        fail(`❌ Não. O correto era ${state.challenge.winner.s}.`);
+      }
+    }
+
+    function handleIonic(choice) {
+      if (!state.running || state.locked || !state.challenge || state.challenge.type !== 'ionic') return;
+      state.locked = true;
+      const c = state.challenge.chosen;
+      if (choice === c.answer) {
+        scorePoints(130);
+        complete(`✅ Correto. ${c.explain}`);
+      } else {
+        punish(4);
+        fail(`❌ Não. ${c.explain}`);
+      }
+    }
+
+    function handleAffinity(symbol) {
+      if (!state.running || state.locked || !state.challenge || state.challenge.type !== 'affinity') return;
+      state.locked = true;
+      if (symbol === state.challenge.winner.s) {
+        scorePoints(125);
+        complete(`✅ Isso. ${state.challenge.winner.s} tem maior afinidade eletrônica nesta comparação.`);
+      } else {
+        punish(4);
+        fail(`❌ Não. O correto era ${state.challenge.winner.s}.`);
+      }
+    }
+
+    function handleSequence(symbol, btn) {
+      if (!state.running || state.locked || !state.challenge || state.challenge.type !== 'sequence') return;
+      const expected = state.challenge.sorted[state.challenge.picks.length];
+      if (symbol === expected.s) {
+        state.challenge.picks.push(symbol);
+        btn.style.opacity = '0.45';
+        btn.style.pointerEvents = 'none';
+        feedback(`Boa. ${symbol} está na posição ${state.challenge.picks.length}.`, 'good');
+        if (state.challenge.picks.length === state.challenge.sorted.length) {
+          state.locked = true;
+          scorePoints(180);
+          setTimeout(() => complete(`✅ Sequência correta: ${state.challenge.sorted.map(x => x.s).join(' > ')}.`), 250);
+        }
+      } else {
+        state.locked = true;
+        punish(5);
+        fail(`❌ Ordem incorreta. A sequência começava com ${expected.s}.`);
+      }
+    }
+
+    function handleSequenceAbs(symbol, btn) {
+      if (!state.running || state.locked || !state.challenge || state.challenge.type !== 'sequenceAbs') return;
+      const expected = state.challenge.sorted[state.challenge.picks.length];
+      if (symbol === expected.s) {
+        state.challenge.picks.push(symbol);
+        btn.style.opacity = '0.45';
+        btn.style.pointerEvents = 'none';
+        feedback(`Boa. ${symbol} está na posição ${state.challenge.picks.length}.`, 'good');
+        if (state.challenge.picks.length === state.challenge.sorted.length) {
+          state.locked = true;
+          scorePoints(180);
+          setTimeout(() => complete(`✅ Sequência correta: ${state.challenge.sorted.map(x => x.s).join(' > ')}.`), 250);
+        }
+      } else {
+        state.locked = true;
+        punish(5);
+        fail(`❌ Ordem incorreta. A sequência começava com ${expected.s}.`);
+      }
+    }
+
+    startBtn.addEventListener('click', startGame);
+    resetBtn.addEventListener('click', resetGame);
+    playAgainBtn.addEventListener('click', startGame);
+    closeEndBtn.addEventListener('click', () => endScreen.style.display = 'none');
+
+    setMode('misto');
+    resetGame();
+  </script>
+</body>
+</html>
